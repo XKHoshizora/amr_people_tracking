@@ -1,8 +1,8 @@
 <launch>
     <!-- 定义公共参数 -->
     <arg name="rviz" default="false" doc="启动RVIZ可视化"/>
-    <arg name="scan_topic" default="/angle_filtered_scan" doc="激光雷达话题"/>
-    <arg name="fixed_frame" default="base_footprint" doc="固定坐标系"/>
+    <arg name="scan_topic" default="/scan" doc="激光雷达话题"/>
+    <arg name="fixed_frame" default="base_link" doc="固定坐标系"/>
 
     <!-- 启动leg_detector -->
     <node pkg="leg_detector" type="leg_detector" name="leg_detector" output="screen">
