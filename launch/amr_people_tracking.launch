@@ -1,0 +1,65 @@
+<launch>
+    <!-- 定义公共参数 -->
+    <arg name="rviz" default="false" doc="启动RVIZ可视化"/>
+    <arg name="scan_topic" default="/angle_filtered_scan" doc="激光雷达话题"/>
+    <arg name="fixed_frame" default="base_footprint" doc="固定坐标系"/>
+
+    <!-- 启动leg_detector -->
+    <node pkg="leg_detector" type="leg_detector" name="leg_detector" output="screen">
+        <!-- leg_detector基础参数 -->
+        <param name="fixed_frame" value="$(arg fixed_frame)"/>
+        <param name="use_seeds" value="false"/>
+        <param name="leg_reliability_limit" value="0.7"/>
+        <param name="min_points_per_group" value="5"/>
+        <param name="connection_threshold" value="0.06"/>
+
+        <!-- 跟踪参数 -->
+        <param name="max_track_jump" value="1.0"/>
+        <param name="max_meas_jump" value="0.75"/>
+        <param name="leg_pair_separation" value="1.0"/>
+
+        <!-- 发布选项 -->
+        <param name="publish_legs" value="true"/>
+        <param name="publish_people" value="true"/>
+        <param name="publish_leg_markers" value="true"/>
+        <param name="publish_people_markers" value="true"/>
+
+        <!-- 卡尔曼滤波参数 -->
+        <param name="kalman_p" value="4.0"/>
+        <param name="kalman_q" value="0.002"/>
+        <param name="kalman_r" value="10.0"/>
+
+        <!-- 超时参数 -->
+        <param name="no_observation_timeout" value="0.5"/>
+        <param name="max_second_leg_age" value="2.0"/>
+
+        <!-- 重映射激光雷达话题 -->
+        <remap from="scan" to="$(arg scan_topic)"/>
+    </node>
+
+    <!-- 启动people_tracker -->
+    <node pkg="amr_people_tracking" type="people_tracker_node" name="people_tracker_node" output="screen">
+        <!-- 基础参数 -->
+        <param name="fixed_frame" value="$(arg fixed_frame)"/>
+        <param name="input_topic" value="/people_tracker_measurements"/>
+        <param name="output_topic" value="/people"/>
+
+        <!-- 检测参数 -->
+        <param name="max_leg_distance" value="1.0"/>
+        <param name="reliability_threshold" value="0.7"/>
+        <param name="person_radius" value="0.3"/>
+
+        <!-- 可视化参数 -->
+        <param name="publish_markers" value="true"/>
+        <param name="marker_lifetime" value="0.2"/>
+        <param name="marker_height" value="1.8"/>
+
+        <!-- 社交参数 -->
+        <param name="social_zone_radius" value="1.2"/>
+        <param name="intimate_zone_radius" value="0.45"/>
+    </node>
+
+    <!-- 可选：启动rviz可视化 -->
+    <node pkg="rviz" type="rviz" name="rviz" if="$(arg rviz)"
+          args="-d $(find amr_people_tracking)/rviz/people_tracking.rviz"/>
+</launch>

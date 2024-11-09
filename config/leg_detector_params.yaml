@@ -1,0 +1,27 @@
+# 基础参数
+fixed_frame: "base_footprint"
+scan_topic: "/scan"
+use_seeds: false
+
+# 检测参数
+connection_threshold: 0.06    # 激光点连接阈值(m)
+min_points_per_group: 5      # 每组最小点数
+leg_reliability_limit: 0.7   # 腿部检测可靠性阈值
+
+# 跟踪参数
+no_observation_timeout: 0.5  # 观测超时时间(s)
+max_second_leg_age: 2.0     # 第二条腿最大等待时间(s)
+max_track_jump: 1.0         # 跟踪最大跳跃距离(m)
+max_meas_jump: 0.75         # 测量最大跳跃距离(m)
+leg_pair_separation: 1.0    # 腿对最大分离距离(m)
+
+# 卡尔曼滤波参数
+kalman_p: 4.0              # 位置不确定度
+kalman_q: 0.002           # 过程噪声
+kalman_r: 10.0            # 测量噪声
+
+# 发布选项
+publish_legs: true
+publish_people: true
+publish_leg_markers: true
+publish_people_markers: true

@@ -1,0 +1,14 @@
+# 基础设置
+fixed_frame: "base_footprint"
+max_leg_distance: 1.0        # 最大腿部距离(m)
+reliability_threshold: 0.7    # 可靠性阈值
+person_radius: 0.3           # 人员半径(m)
+
+# 可视化设置
+publish_markers: true        # 是否发布可视化标记
+marker_lifetime: 0.2         # 标记存在时间(s)
+marker_height: 1.8           # 人员标记高度(m)
+
+# 社交层参数
+social_zone_radius: 1.2      # 社交区域半径(m)
+intimate_zone_radius: 0.45   # 私密区域半径(m)
